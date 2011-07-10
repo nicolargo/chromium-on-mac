@@ -1,0 +1,7 @@
+
+This is a simple Shell script to install or update the latest daily version of Chromium on a Mac OS X operating system.
+
+1) Download the script
+2) Be sure that execution right is set:chmod a+x ./chromium-on-mac.sh
+3) Run it: ./chromium-on-mac.sh
+
