@@ -4,16 +4,17 @@
 # 
 # Nicolargo
 # GPL v3
-SCRIPT_VERSION="1.1"
+SCRIPT_VERSION="1.2"
 
-CHROMIUM_URL="http://build.chromium.org/f/chromium/snapshots/Mac"
+#CHROMIUM_URL="http://build.chromium.org/f/chromium/snapshots/Mac"
+CHROMIUM_URL="http://commondatastorage.googleapis.com/chromium-browser-snapshots/Mac"
 CHROMIUM_INSTALL_PATH="/Applications/"
 CHROMIUM_CURRENT_VERSION_FILE="$CHROMIUM_INSTALL_PATH/Chromium.app/Contents/Info.plist"
-CHROMIUM_CURRENT_VERSION=$(cat $CHROMIUM_CURRENT_VERSION_FILE | grep -A 1 SVNRevision | tail -1 | sed -e 's/<[^>]*>//g' | tr -d '\011')
+CHROMIUM_CURRENT_VERSION=`defaults read /Applications/Chromium.app/Contents/Info SVNRevision`
 
 echo "Chromium version installed: $CHROMIUM_CURRENT_VERSION"
 echo "Checking for update"
-CHROMIUM_LATEST_VERSION=$(curl -s -S $CHROMIUM_URL/LATEST)
+CHROMIUM_LATEST_VERSION=$(curl -s -S $CHROMIUM_URL/LAST_CHANGE)
 
 if [ "$CHROMIUM_CURRENT_VERSION" == "" ] || [ $CHROMIUM_CURRENT_VERSION -lt $CHROMIUM_LATEST_VERSION ]; then
 	echo "Latest version of Chromium will be installed"
@@ -25,7 +26,8 @@ if [ "$CHROMIUM_CURRENT_VERSION" == "" ] || [ $CHROMIUM_CURRENT_VERSION -lt $CHR
 	
 	echo "Latest Chromium version:  $CHROMIUM_LATEST_VERSION"
 	echo "Downloading Chromium version $CHROMIUM_LATEST_VERSION"
-	curl $CHROMIUM_URL/$CHROMIUM_LATEST_VERSION/chrome-mac.zip > /tmp/chrome-mac.zip
+	echo "URL = $CHROMIUM_URL/$CHROMIUM_LATEST_VERSION/chrome-mac.zip"
+	curl -L $CHROMIUM_URL/$CHROMIUM_LATEST_VERSION/chrome-mac.zip > /tmp/chrome-mac.zip
 	cd /tmp
 	unzip chrome-mac.zip
 	rm -rf $CHROMIUM_INSTALL_PATH/Chromium.app
