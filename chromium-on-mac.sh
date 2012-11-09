@@ -4,13 +4,15 @@
 # 
 # Nicolargo
 # GPL v3
-SCRIPT_VERSION="1.3"
+#
+SCRIPT_VERSION="1.32"
 
 CHROMIUM_URL="http://commondatastorage.googleapis.com/chromium-browser-continuous/index.html?path=Mac"
 CHROMIUM_URL2="http://commondatastorage.googleapis.com/chromium-browser-continuous/Mac"
 CHROMIUM_INSTALL_PATH="/Applications/"
 CHROMIUM_CURRENT_VERSION_FILE="$CHROMIUM_INSTALL_PATH/Chromium.app/Contents/Info.plist"
-CHROMIUM_CURRENT_VERSION=`defaults read /Applications/Chromium.app/Contents/Info SVNRevision`
+#CHROMIUM_CURRENT_VERSION=`defaults read /Applications/Chromium.app/Contents/Info SVNRevision`
+CHROMIUM_CURRENT_VERSION=`defaults read /Applications/Chromium.app/Contents/Info SCMRevision`
 
 echo "Chromium version installed: $CHROMIUM_CURRENT_VERSION"
 echo "Checking for update: $CHROMIUM_URL2/LAST_CHANGE"
@@ -30,7 +32,8 @@ if [ "$CHROMIUM_CURRENT_VERSION" == "" ] || [ $CHROMIUM_CURRENT_VERSION -lt $CHR
 	curl -L $CHROMIUM_URL2/$CHROMIUM_LATEST_VERSION/chrome-mac.zip > /tmp/chrome-mac.zip
 	cd /tmp
 	unzip chrome-mac.zip
-	rm -rf $CHROMIUM_INSTALL_PATH/Chromium.app
+	rm -rf $CHROMIUM_INSTALL_PATH/Chromium.app.old
+	mv $CHROMIUM_INSTALL_PATH/Chromium.app $CHROMIUM_INSTALL_PATH/Chromium.app.old
 	cp -R chrome-mac/Chromium.app $CHROMIUM_INSTALL_PATH
 	rm -Rf /tmp/chrome-mac*
 	echo "Chromium version $CHROMIUM_LATEST_VERSION installed"
