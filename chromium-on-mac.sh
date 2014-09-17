@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Install|Update Chromium Web browser on Mac OS
-# 
+#
 # Nicolargo
 # GPL v3
 #
@@ -13,6 +13,12 @@ CHROMIUM_INSTALL_PATH="/Applications/"
 CHROMIUM_CURRENT_VERSION_FILE="$CHROMIUM_INSTALL_PATH/Chromium.app/Contents/Info.plist"
 #CHROMIUM_CURRENT_VERSION=`defaults read /Applications/Chromium.app/Contents/Info SVNRevision`
 CHROMIUM_CURRENT_VERSION=`defaults read /Applications/Chromium.app/Contents/Info SCMRevision`
+
+if [[ ! $CHROMIUM_CURRENT_VERSION =~ ^-?[0-9]+$ ]]
+then
+	CHROMIUM_CURRENT_VERSION=${CHROMIUM_CURRENT_VERSION#*master\@\{#}
+	CHROMIUM_CURRENT_VERSION=${CHROMIUM_CURRENT_VERSION%\}}
+fi
 
 echo "Chromium version installed: $CHROMIUM_CURRENT_VERSION"
 echo "Checking for update: $CHROMIUM_URL2/LAST_CHANGE"
@@ -26,7 +32,7 @@ if [ "$CHROMIUM_CURRENT_VERSION" == "" ] || [ $CHROMIUM_CURRENT_VERSION -lt $CHR
 		echo "ERROR : Chromium must be closed before install new version"
 		exit 1
 	fi
-	
+
 	echo "Downloading Chromium version $CHROMIUM_LATEST_VERSION"
 	echo "URL = $CHROMIUM_URL2/$CHROMIUM_LATEST_VERSION/chrome-mac.zip"
 	curl -L $CHROMIUM_URL2/$CHROMIUM_LATEST_VERSION/chrome-mac.zip > /tmp/chrome-mac.zip
