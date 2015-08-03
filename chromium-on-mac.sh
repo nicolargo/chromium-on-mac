@@ -7,8 +7,8 @@
 #
 SCRIPT_VERSION="1.32"
 
-CHROMIUM_URL="http://commondatastorage.googleapis.com/chromium-browser-continuous/index.html?path=Mac"
-CHROMIUM_URL2="http://commondatastorage.googleapis.com/chromium-browser-continuous/Mac"
+CHROMIUM_URL="http://commondatastorage.googleapis.com/chromium-browser-snapshots/index.html?path=Mac"
+CHROMIUM_URL2="http://commondatastorage.googleapis.com/chromium-browser-snapshots/Mac"
 CHROMIUM_INSTALL_PATH="/Applications/"
 CHROMIUM_CURRENT_VERSION_FILE="$CHROMIUM_INSTALL_PATH/Chromium.app/Contents/Info.plist"
 #CHROMIUM_CURRENT_VERSION=`defaults read /Applications/Chromium.app/Contents/Info SVNRevision`
